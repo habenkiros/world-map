@@ -1,4 +1,4 @@
-# Streamlit Worldle
+# Guess The world Map
 
 Streamlit + SQLite clone of worldle
 
