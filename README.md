@@ -1,8 +1,8 @@
-# Streamlit Worldle
+# Guess The world Map
 
 Streamlit + SQLite clone of worldle
 
-Built with ❤️ by [gerardrbentley](https://github.com/gerardrbentley)
+Built with ❤️ by [Haben](https://github.com/habenkiros)
 
 ## What's this?
 
@@ -42,10 +42,10 @@ Assumes working python installation and some command line knowledge ([install py
 
 ```sh
 # External users: download Files
-git clone git@github.com:gerardrbentley/streamlit_worldle.git
+git clone git@github.com:habenkiros/world-map.git
 
 # Go to correct directory
-cd streamlit_worldle
+cd world-map.git
 
 # Create virtual environment for this project
 python -m venv venv
@@ -67,10 +67,3 @@ Open your browser to [http://localhost:8501/](http://localhost:8501/) if it does
 For the easiest experience, deploy to [Streamlit Cloud](https://streamlit.io/cloud)
 
 For other options, see [Streamilt deployment wiki](https://discuss.streamlit.io/t/streamlit-deployment-guide-wiki/5099)
-
-## Credits
-
-This package was created with Cookiecutter and the `gerardrbentley/cookiecutter-streamlit` project template.
-
-- Cookiecutter: [https://github.com/audreyr/cookiecutter](https://github.com/audreyr/cookiecutter)
-- `gerardrbentley/cookiecutter-streamlit`: [https://github.com/gerardrbentley/cookiecutter-streamlit](https://github.com/gerardrbentley/cookiecutter-streamlit)
