@@ -159,10 +159,8 @@ def main():
         initial_sidebar_state="collapsed",
         
     )
-    st.title("Guess the Country 'Zemeo' Edition! 🌍")
-    st.markdown(
-        "Heavily inspired for Students guessing game. Personlized Video from your favorite stars [Zemeo](https://www.zemeo.net)."
-    )
+    st.title("አገሩን ገምት! 🌍")
+
     query_params = st.experimental_get_query_params()
     locale_index = 3
     try:
@@ -200,7 +198,7 @@ def main():
             zoom_start=3,
         )
         target_gdf.explore(m=m)
-        folium_static(m, width=725)
+        folium_static(m, width=725, height=400)
         st.button("Play Again!", on_click=on_reset)
         st.subheader("All Location Data")
         safe_cols = [col for col in all_locations.columns if all_locations[col].dtype != 'geometry']
@@ -208,36 +206,9 @@ def main():
         st.dataframe(df)
         st.stop()
 
-    with st.expander("What is This?"):
-        st.write(
-            """\
-### Streamlit Worldle
-A geography guessing game with the following rules:
-
-- You are given the outline of a mystery Country or Territory 🌏
-- If you guess the correct Country then you win 🥳
-- If you guess incorrectly 6 times then you lose 😔
-- Each incorrect guess will reveal information that might help you locate the mystery Country:
-    - 📏 The `distance` that the center of the guess Country is away from the mystery Country
-    - 🧭 The `direction` that points from the guess Country to the mystery Country (on a 2D map)
-    - 🥈 The `proximity` percentage of how correct the guess was. A guess on the opposite side of the globe will be `0%` and the correct guess will be `100%`.
-
-### Data Sources and Caveats
-
-- World Bank: [World Boundaries GeoDatabase](https://datacatalog.worldbank.org/search/dataset/0038272/World-Bank-Official-Boundaries)
-    - Provides Country and Territory shapes, locations, and names
-    - Loaded into SQLite + Spatialite database (see original location guessing [repository on github](https://github.com/gerardrbentley/streamlit-location-guesser))
-    - Some boundaries may not be precise or might include satellite territories in addition to mainland
-- 📏 `distance` is the [Haversine Distance](https://en.wikipedia.org/wiki/Haversine_formula) calculated based on the [centroids](http://wiki.gis.com/wiki/index.php/Centroid) of the Countries calculated using GeoPandas
-    - Countries that share a border will **NOT** have 0 km `distance`
-    - The maximum `distance` possible is roughly `20000 km` (two points on opposite sides of the globe)
-    - The `proximity` percentage is based on the maximum `distance`
-"""
-        )
-        st.write("""Built with ❤️ by [Haben Kiros](https://zemeo.net/).""")
-    with st.expander("Hints! (Optional)", True):
-        show_guesses_on_map = st.checkbox("Reveal your guesses on a map (will load an additional map below the mystery country)", False)
-        show_on_map = st.checkbox("Reveal the mystery country on a map (will load a map centered on the mystery country", False)
+    with st.expander("ፍንጭ! (አማራጭ)", True):
+        show_guesses_on_map = st.checkbox("ጨዋታውን ከወደዱት ቡና ይግዙ (+251 0910385337 ቴሌብር ቁጥር)", False)
+        show_on_map = st.checkbox("If you like it Buy me a Coffee (telebir number +251 0910385337)", False)
 
 
     if not already_won and not show_on_map:
@@ -271,7 +242,7 @@ A geography guessing game with the following rules:
                 folium.Marker(
                     [target_lat, target_lon], tooltip=f"{target_lat}, {target_lon}"
                 ).add_to(m)
-        folium_static(m, width=725)
+        folium_static(m, width=725, height=400)
 
     for display_guess in guesses:
         display_guess_country = all_locations.loc[display_guess]
@@ -292,22 +263,22 @@ A geography guessing game with the following rules:
         )
 
     if len(guesses) == 6:
-        st.error("You Guessed Incorrectly 6 Times 😔")
-        st.button("Try Again!", on_click=on_reset)
+        st.error("6 ጊዜ በስህተት ገምተሃል 😔")
+        st.button("እንደገና ሞክር!", on_click=on_reset)
         st.stop()
 
     with st.form("guess", True):
         guess = st.selectbox(
-            "Guess the country (Click the drop down then type to filter)",
+            "ሀገሩን ገምት (ዝርዝር መውጫውን ጠቅ ያድርጉ እና ለማጣራት ይተይቡ)",
             all_locations[locale_col],
         )
-        has_guessed = st.form_submit_button("Submit Guess!")
+        has_guessed = st.form_submit_button("ግምት ያስገቡ!")
 
-    st.button("Get new Random Country", on_click=on_reset)
+    st.button("አዲስ የዘፈቀደ አገር ያግኙ", on_click=on_reset)
     guess_fid = all_locations.index[all_locations[locale_col] == guess][0]
 
     if not has_guessed or guess_fid in guesses:
-        st.warning("Submit a new Guess to continue!")
+        st.warning("ለመቀጠል አዲስ ግምት ያስገቡ!")
         st.stop()
 
     guesses.append(guess_fid)
@@ -336,7 +307,7 @@ LOCALES = {
     "tr": "name_tr",
     "vi": "name_vi",
     "zh": "name_zh",
-    "am": "name_am",
+
 }
 
 if __name__ == "__main__":
