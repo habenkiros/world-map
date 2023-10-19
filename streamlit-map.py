@@ -77,7 +77,7 @@ def helper_bearing(row: pd.Series, target_lat: float, target_lon: float) -> floa
 
 MAX_DISTANCE = haversine(0, 0, 180, 0, "km")
 
-@st.cache_resource
+@st.cache
 def get_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(
         database="file:countries.db?immutable=1",
@@ -103,7 +103,7 @@ def get_random_location() -> sqlite3.Row:
     return result
 
 
-@st.cache_resource
+@st.cache
 def get_all_locations() -> gpd.GeoDataFrame:
     conn = get_connection()
     query = f"SELECT *, Hex(ST_AsBinary(geometry)) as 'geom' FROM country WHERE type != 'Dependency' and type != 'Lease' ORDER BY name_en;"
