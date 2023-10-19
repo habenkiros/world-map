@@ -17,7 +17,7 @@ log.setLevel(logging.DEBUG)
 
 WHITE = (255, 255, 255)
 
-@st.experimental_singleton
+@st.experimental_memo
 def get_rotated_arrow(degrees: float) -> str:
     img = Image.open("./arrow.png").convert("RGB").resize((50, 50))
     result = img.rotate(-degrees, fillcolor=WHITE)
@@ -77,7 +77,7 @@ def helper_bearing(row: pd.Series, target_lat: float, target_lon: float) -> floa
 
 MAX_DISTANCE = haversine(0, 0, 180, 0, "km")
 
-@st.experimental_memo
+@st.experimental_singleton
 def get_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(
         database="file:countries.db?immutable=1",
@@ -103,7 +103,7 @@ def get_random_location() -> sqlite3.Row:
     return result
 
 
-@st.experimental_memo
+@st.experimental_singleton
 def get_all_locations() -> gpd.GeoDataFrame:
     conn = get_connection()
     query = f"SELECT *, Hex(ST_AsBinary(geometry)) as 'geom' FROM country WHERE type != 'Dependency' and type != 'Lease' ORDER BY name_en;"
@@ -129,7 +129,7 @@ def get_distances(fid: int) -> gpd.GeoDataFrame:
     return result
 
 
-@st.experimental_singleton
+@st.experimental_memo
 def get_country_names(all_locations: pd.DataFrame, locale_col: str = "name_en") -> list:
     names = all_locations[locale_col]
     return names.to_list()
