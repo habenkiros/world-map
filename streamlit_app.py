@@ -211,11 +211,18 @@ def main():
 
 
     if not already_won and not show_on_map:
+    # Display the flag image
+        flag_image_path = f"flags/PNG-128/{random_location['iso_a2']}-128.png"
+        flag_image = Image.open(flag_image_path)
+        st.image(flag_image, use_column_width=False)
+
+        # Display the map
         fig, ax = plt.subplots(figsize=(3, 3))
         country = all_locations.loc[[random_location["fid"]]]
         country.plot(ax=ax, figsize=(0.5, 1), legend=True)
         ax.set_axis_off()
         st.pyplot(fig)
+
 
     guess_fid = None
     if show_guesses_on_map or show_on_map:
@@ -230,8 +237,8 @@ def main():
         m = folium.Map(
             location=[lat, lon],
             zoom_start=3,
-            tiles="Stamen Watercolor",
-            attr="Stamen",
+            tiles="Stamen Terrain",
+            attr="Stamen"
         )
         if len(targets):
             target_gdf = all_locations.loc[targets, "geom"]
