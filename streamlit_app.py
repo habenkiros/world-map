@@ -17,7 +17,7 @@ log.setLevel(logging.DEBUG)
 
 WHITE = (255, 255, 255)
 
-@st.cache_data
+@st.experimental_singleton
 def get_rotated_arrow(degrees: float) -> str:
     img = Image.open("./arrow.png").convert("RGB").resize((50, 50))
     result = img.rotate(-degrees, fillcolor=WHITE)
@@ -129,7 +129,7 @@ def get_distances(fid: int) -> gpd.GeoDataFrame:
     return result
 
 
-@st.cache
+@st.experimental_singleton
 def get_country_names(all_locations: pd.DataFrame, locale_col: str = "name_en") -> list:
     names = all_locations[locale_col]
     return names.to_list()
